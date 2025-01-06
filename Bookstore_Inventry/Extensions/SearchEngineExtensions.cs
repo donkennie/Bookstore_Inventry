@@ -1,15 +1,17 @@
-﻿namespace Bookstore_Inventry.Extensions
+﻿using Bookstore_Inventry.DTOs;
+
+namespace Bookstore_Inventry.Extensions
 {
-    public class SearchEngineExtensions
+    public static class SearchEngineExtensions
     {
-        public static IQueryable<AdvocateDTO> Search(this IQueryable<AdvocateDTO> advocates, string searchTerm)
+        public static IQueryable<BookDTO> Search(this IQueryable<BookDTO> advocates, string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
                 return advocates;
 
             var lowerCaseTerm = searchTerm.Trim().ToLower();
 
-            return advocates.Where(w => w.Name.ToLower().Contains(lowerCaseTerm));
+            return advocates.Where(w => w.Title.ToLower().Contains(lowerCaseTerm));
 
         }
     }

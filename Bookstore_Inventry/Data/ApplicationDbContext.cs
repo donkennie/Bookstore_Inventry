@@ -1,7 +1,5 @@
-﻿using System.Reflection.Emit;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Bookstore_Inventry.Models;
 
 namespace Bookstore_Inventry.Data
