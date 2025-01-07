@@ -6,6 +6,7 @@ using Serilog;
 using FluentValidation.AspNetCore;
 using Bookstore_Inventry.DTOs;
 using FluentValidation;
+using Bookstore_Inventry.Services;
 
 namespace Bookstore_Inventry.Extensions
 {
@@ -26,6 +27,7 @@ namespace Bookstore_Inventry.Extensions
             serviceCollection.AddFluentValidationAutoValidation();
 
             serviceCollection.AddScoped<IBookRepository, BookRepository>();
+            serviceCollection.AddScoped<IBookService, BookService>();
 
             serviceCollection.AddCors(opt =>
             {
