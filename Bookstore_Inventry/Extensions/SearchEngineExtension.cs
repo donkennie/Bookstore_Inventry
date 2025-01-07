@@ -13,7 +13,6 @@ namespace Bookstore_Inventry.Extensions
             var lowerCaseTerm = searchTerm.Trim().ToLower();
 
             return book.Where(w => w.Author.ToLower().Contains(lowerCaseTerm));
-
         }
     }
 }
