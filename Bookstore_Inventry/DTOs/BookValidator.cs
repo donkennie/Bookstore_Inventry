@@ -12,4 +12,14 @@ namespace Bookstore_Inventry.DTOs
             RuleFor(x => x.StockQuantity).GreaterThanOrEqualTo(0);
         }
     }
+
+    public class StockUpdateValidator : AbstractValidator<int>
+    {
+        public StockUpdateValidator()
+        {
+            RuleFor(x => x)
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Stock quantity cannot be negative");
+        }
+    }
 }

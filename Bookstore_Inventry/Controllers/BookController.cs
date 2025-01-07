@@ -1,6 +1,7 @@
 ﻿using Bookstore_Inventry.DTOs;
 using Bookstore_Inventry.Models;
 using Bookstore_Inventry.Repositories.Abstractions;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore_Inventry.Controllers
@@ -25,7 +26,7 @@ namespace Bookstore_Inventry.Controllers
 
         [HttpPost]
         [Route("/create-book")]
-        [ProducesResponseType(typeof(BookDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(AppException), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateBook([FromBody] BookDTO request)
         {
@@ -35,7 +36,7 @@ namespace Bookstore_Inventry.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(BookDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(AppException), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetBooks([FromQuery]FilterData request)
         {
@@ -46,10 +47,12 @@ namespace Bookstore_Inventry.Controllers
 
         [HttpPut]
         [Route("/update-stock")]
-        [ProducesResponseType(typeof(BookDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(AppException), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateBook(Guid id, int quantity)
         {
+            var validator = new StockUpdateValidator();
+            validator.ValidateAndThrow(quantity);
             var result = await _bookRepository.UpdateStockAsync(id, quantity);
             if (result is null)
                 return NotFound();
