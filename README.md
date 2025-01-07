@@ -36,5 +36,5 @@ Before you begin, ensure that you have the following installed:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/bookstore-inventory.git
-cd bookstore-inventory
+git clone https://github.com/donkennie/Bookstore_Inventry.git
+cd Bookstore_Inventry
