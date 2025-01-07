@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore_Inventry.Controllers
 {
+    [Route("api/book")]
+    [ApiController]
     public class BookController(IBookRepository _bookRepository) : ControllerBase
     {
 
@@ -22,9 +24,10 @@ namespace Bookstore_Inventry.Controllers
 
 
         [HttpPost]
+        [Route("/create-book")]
         [ProducesResponseType(typeof(BookDTO), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(AppException), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateBook(BookDTO request)
+        public async Task<IActionResult> CreateBook([FromBody] BookDTO request)
         {
             var book = new Book(request);
             var result = await _bookRepository.AddAsync(book);
@@ -34,7 +37,7 @@ namespace Bookstore_Inventry.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(BookDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(AppException), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetBooks(FilterData request)
+        public async Task<IActionResult> GetBooks([FromQuery]FilterData request)
         {
             var book = await _bookRepository.GetAllAsync(request);
 
@@ -42,6 +45,7 @@ namespace Bookstore_Inventry.Controllers
         }
 
         [HttpPut]
+        [Route("/update-stock")]
         [ProducesResponseType(typeof(BookDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(AppException), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateBook(Guid id, int quantity)

@@ -1,5 +1,6 @@
 ﻿using Bookstore_Inventry.Data;
 using Bookstore_Inventry.DTOs;
+using Bookstore_Inventry.Extensions;
 using Bookstore_Inventry.Models;
 using Bookstore_Inventry.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Bookstore_Inventry.Repositories.Implemetations
                                     .AsNoTracking();
 
             if (filter.author is not null)
-                bookQuery = bookQuery.Where(x => x.Author == filter.author);
+                bookQuery = bookQuery.SearchAuthor(filter.author);
             if (filter.minPrice is not null)
                 bookQuery = bookQuery.Where(x => x.Price >= filter.minPrice.Value);
             if (filter.maxPrice is not null)
