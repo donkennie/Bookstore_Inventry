@@ -1,6 +1,11 @@
 ﻿using Bookstore_Inventry.Data;
+using Bookstore_Inventry.Repositories.Abstractions;
+using Bookstore_Inventry.Repositories.Implemetations;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using FluentValidation.AspNetCore;
+using Bookstore_Inventry.DTOs;
+using FluentValidation;
 
 namespace Bookstore_Inventry.Extensions
 {
@@ -16,6 +21,11 @@ namespace Bookstore_Inventry.Extensions
                 Options.UseNpgsql(_config.GetConnectionString("DefaultConnection"));
 
             });
+
+            serviceCollection.AddValidatorsFromAssemblyContaining<BookValidator>();
+            serviceCollection.AddFluentValidationAutoValidation();
+
+            serviceCollection.AddScoped<IBookRepository, BookRepository>();
 
             serviceCollection.AddCors(opt =>
             {

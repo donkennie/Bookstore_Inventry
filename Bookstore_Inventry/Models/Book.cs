@@ -14,6 +14,7 @@ namespace Bookstore_Inventry.Models
         public DateTime ModifiedOn { get; private set; }
 
         public Book(){}
+
         public Book(BookDTO bookDTO)
         {
             Author = bookDTO.Author;

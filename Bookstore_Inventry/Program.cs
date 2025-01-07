@@ -1,4 +1,5 @@
 using Bookstore_Inventry.Extensions;
+using Bookstore_Inventry.Middlewares;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,8 @@ builder.Host.UseSerilog();
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -23,11 +26,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseSerilogRequestLogging();
+app.UseMiddleware<ExceptionMiddleware>();
+
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseCors("CorsPolicy");
+
+app.UseSwagger();
 
 app.MapControllers();
 
