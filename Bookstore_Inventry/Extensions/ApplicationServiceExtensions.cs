@@ -23,6 +23,8 @@ namespace Bookstore_Inventry.Extensions
 
             });
 
+            serviceCollection.AddAutoMapper(typeof(MappingProfile));
+
             serviceCollection.AddValidatorsFromAssemblyContaining<BookValidator>();
             serviceCollection.AddFluentValidationAutoValidation();
 

@@ -1,4 +1,5 @@
-﻿using Bookstore_Inventry.DTOs;
+﻿using AutoMapper;
+using Bookstore_Inventry.DTOs;
 using Bookstore_Inventry.Models;
 using Bookstore_Inventry.Repositories.Abstractions;
 using FluentValidation;
@@ -6,19 +7,21 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Bookstore_Inventry.Services
 {
-    public class BookService(IBookRepository _bookRepository, ILogger<BookService> _logger) : IBookService
+    public class BookService(IBookRepository _bookRepository, IMapper _mapper, ILogger<BookService> _logger) : IBookService
     {
-        public async Task<Response<string>> CreateBook(BookDTO bookDto)
+        public async Task<Response<BookViewModel>> CreateBook(BookDTO bookDto)
         {
-            var response = new Response<string>();
+            var response = new Response<BookViewModel>();
             try
             {
                 var book = new Book(bookDto);
                 var result = await _bookRepository.AddAsync(book);
 
+                var mapData = _mapper.Map<Book, BookViewModel>(result);
+
                 response.StatusCode = StatusCodes.Status201Created;
                 response.Message = "Book created successfully!";
-                response.Data = book;
+                response.Data = mapData;
 
                 return response;
             }
@@ -43,9 +46,11 @@ namespace Bookstore_Inventry.Services
                     return response;
                 }
 
+                var mapData = _mapper.Map<Book, BookViewModel>(book);
+
                 response.StatusCode = StatusCodes.Status200OK;
                 response.Message = "Book fetched successfully!";
-                response.Data = book;
+                response.Data = mapData;
 
                 return response;
 
@@ -59,15 +64,18 @@ namespace Bookstore_Inventry.Services
             }
         }
 
-        public async Task<Response<BookViewModel>> GetBooks(FilterData filter)
+        public async Task<Response<List<BookViewModel>>> GetBooks(FilterData filter)
         {
-            var response = new Response<BookViewModel>();
+            var response = new Response<List<BookViewModel>>();
             try
             {
                 var books = await _bookRepository.GetAllAsync(filter);
+
+                var mapData = _mapper.Map<List<BookViewModel>>(books);
+
                 response.StatusCode = StatusCodes.Status200OK;
                 response.Message = "Books fetched successfully!";
-                response.Data = books;
+                response.Data = mapData;
 
                 return response;
             }
@@ -95,9 +103,11 @@ namespace Bookstore_Inventry.Services
                     return response;
                 }
 
+                var mapData = _mapper.Map<BookViewModel>(book);
+
                 response.StatusCode = StatusCodes.Status200OK;
                 response.Message = "Books updated successfully!";
-                response.Data = book;
+                response.Data = mapData;
 
                 return response;
             }

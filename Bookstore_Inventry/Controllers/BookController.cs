@@ -1,8 +1,5 @@
 ﻿using Bookstore_Inventry.DTOs;
-using Bookstore_Inventry.Models;
-using Bookstore_Inventry.Repositories.Abstractions;
 using Bookstore_Inventry.Services;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore_Inventry.Controllers
